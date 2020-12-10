@@ -14,34 +14,31 @@ import org.elasticsearch.index.common.parser.KoreanJamoParser;
  *
  */
 public final class JavacafeJamoTokenFilter extends TokenFilter {
-    
-    private KoreanJamoParser parser;
-    private CharTermAttribute termAtt;
 
-    
-    public JavacafeJamoTokenFilter(TokenStream stream) {
-        super(stream);
-        this.parser = new KoreanJamoParser();
-        this.termAtt = addAttribute(CharTermAttribute.class);
-    }
+	private final KoreanJamoParser parser;
+	private final CharTermAttribute termAtt;
 
-    
-    /**
-     * 한글 자모 Parser를 이용하여 토큰을 파싱하고 Term을 구한다. 
-     */
-    @Override
-    public boolean incrementToken() throws IOException {
-        
-        if (input.incrementToken()) {
-            CharSequence parserdData = parser.parse(termAtt.toString());
-            termAtt.setEmpty();
-            termAtt.append(parserdData);
-        
-            return true;
-        }
-        
-        return false;
-    }
-    
-    
+	public JavacafeJamoTokenFilter(TokenStream stream) {
+		super(stream);
+		this.parser = new KoreanJamoParser();
+		this.termAtt = addAttribute(CharTermAttribute.class);
+	}
+
+	/**
+	 * 한글 자모 Parser를 이용하여 토큰을 파싱하고 Term을 구한다.
+	 */
+	@Override
+	public boolean incrementToken() throws IOException {
+
+		if (input.incrementToken()) {
+			CharSequence parserdData = parser.parse(termAtt.toString());
+			termAtt.setEmpty();
+			termAtt.append(parserdData);
+
+			return true;
+		}
+
+		return false;
+	}
+
 }

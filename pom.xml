@@ -12,12 +12,10 @@
 
     <!-- 로컬에서는 테스트 문제로 6.2.2를 사용하자 -->
     <properties>
-        <elasticsearch.version>6.4.3</elasticsearch.version>
-        <!-- 		<elasticsearch.version>6.2.2</elasticsearch.version> -->
-        <lucene.version>7.2.1</lucene.version>
+        <elasticsearch.version>7.5.0</elasticsearch.version>
+        <!-- 		<elsticsearch.version>6.2.2</elasticsearch.version> -->
+        <lucene.version>8.3.0</lucene.version>
     </properties>
-
-
 
     <dependencies>
         <dependency>
@@ -53,7 +51,6 @@
             <scope>provided</scope>
         </dependency>
 
-
         <!-- 추후 scope를 test로 변경 -->
         <dependency>
             <groupId>org.elasticsearch.test</groupId>
@@ -82,10 +79,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-
     </dependencies>
-
-
 
     <build>
         <finalName>javacafe-analyzer-${elasticsearch.version}</finalName>

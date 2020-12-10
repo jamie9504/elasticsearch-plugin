@@ -1,60 +1,98 @@
 package org.elasticsearch.plugin.utilTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import org.elasticsearch.index.common.converter.EngToKorConverter;
+import org.elasticsearch.index.common.converter.LanguageConverter;
 import org.junit.Test;
 
 public class ConverterE2KTest {
-    
-    
-    @Test
-    public void test1() {
-        String token = "wkqkzkvp";
-        
-        EngToKorConverter convert = new EngToKorConverter();
-        String result = convert.convert(token);
-        
-        System.out.println(result);
-        assertEquals("자바카페", result);
-    }
-    
 
-    @Test
-    public void test2() {
-        String token = "tkatjdwjswk";
-        
-        EngToKorConverter convert = new EngToKorConverter();
-        String result = convert.convert(token);
-        
-        System.out.println(result);
-        assertEquals("삼성전자", result);
-    }
+	@Test
+	public void 자바카페() {
+		String token = "wkqkzkvp";
 
-   
-    @Test
-    public void test3() {
-        String token = "gksrmf";
-        
-        EngToKorConverter convert = new EngToKorConverter();
-        String result = convert.convert(token);
-        
-        System.out.println(result);
-        assertEquals("한글", result);
-    }
-    
-    
-    @Test
-    public void test4() {
-        String token = "gksrmf1";
-        
-        EngToKorConverter convert = new EngToKorConverter();
-        String result = convert.convert(token);
-        
-        System.out.println(result);
-        assertEquals("한글1", result);
-    }
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
 
-    
-    
+		System.out.println(result);
+		assertEquals("자바카페", result);
+	}
+
+	@Test
+	public void 삼성전자() {
+		String token = "tkatjdwjswk";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("삼성전자", result);
+	}
+
+	@Test
+	public void 한글() {
+		String token = "gksrmf";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("한글", result);
+	}
+
+	@Test
+	public void 한글1() {
+		String token = "gksrmf1";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("한글1", result);
+	}
+
+	@Test
+	public void 한글영어1() {
+		String token = "gksrmf영어1";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("한글영어1", result);
+	}
+
+	@Test
+	public void 뮹나ㄴ뉴느() {
+		String token = "abd나s뉴느";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("뮹나ㄴ뉴느", result);
+	}
+
+	@Test
+	public void ㅇㄹㅁㄴ() {
+		String token = "dfas";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("ㅇㄹㅁㄴ", result);
+	}
+
+	@Test
+	public void 메ㅔㅣㄷ() {
+		String token = "apple";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("메ㅔㅣㄷ", result);
+	}
 }

@@ -1,44 +1,36 @@
-package org.elasticsearch.index.analysis.spell;
+package org.elasticsearch.index.analysis.krenconvert;
 
 import java.io.IOException;
 
 import org.apache.lucene.analysis.TokenFilter;
 import org.apache.lucene.analysis.TokenStream;
 import org.apache.lucene.analysis.tokenattributes.CharTermAttribute;
-import org.elasticsearch.index.common.parser.KoreanJamoParser;
+import org.elasticsearch.index.common.converter.LanguageConverter;
 
 /**
- * 스펠링 체크 필터
+ * 한영 상호 변환 필터
  *
- * @author hrkim
+ * @author jamie
  *
  */
-public final class JavacafeSpellFilter extends TokenFilter {
-
-	private final KoreanJamoParser parser;
+public class JamieKrEnConvertFilter extends TokenFilter {
+	private final LanguageConverter converter;
 	private final CharTermAttribute termAtt;
 
-	public JavacafeSpellFilter(TokenStream stream) {
+	public JamieKrEnConvertFilter(TokenStream stream) {
 		super(stream);
-		this.parser = new KoreanJamoParser();
+		this.converter = new LanguageConverter();
 		this.termAtt = addAttribute(CharTermAttribute.class);
 	}
 
-	/**
-	 * 한글 자모 Parser를 이용하여 토큰을 파싱하고 Term을 구한다.
-	 */
 	@Override
 	public boolean incrementToken() throws IOException {
-
 		if (input.incrementToken()) {
-			CharSequence parserdData = parser.parse(termAtt.toString());
+			CharSequence parserdData = converter.convert(termAtt.toString());
 			termAtt.setEmpty();
 			termAtt.append(parserdData);
-
 			return true;
 		}
-
 		return false;
 	}
-
 }

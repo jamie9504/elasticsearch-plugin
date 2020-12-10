@@ -8,17 +8,13 @@ import org.elasticsearch.index.analysis.AbstractTokenFilterFactory;
 
 public class JavacafeSpellFilterFactory extends AbstractTokenFilterFactory {
 
-    
-    public JavacafeSpellFilterFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
-        super(indexSettings, name, settings);
-    }
-    
+	public JavacafeSpellFilterFactory(IndexSettings indexSettings, Environment env, String name, Settings settings) {
+		super(indexSettings, name, settings);
+	}
 
-    @Override
-    public TokenStream create(TokenStream stream) {
-        return new JavacafeSpellFilter(stream);
-    }
+	@Override
+	public TokenStream create(TokenStream stream) {
+		return new JavacafeSpellFilter(stream);
+	}
 
-    
-    
 }
