@@ -3,7 +3,6 @@ package org.elasticsearch.plugin.utilTest;
 import static org.junit.Assert.*;
 
 import org.elasticsearch.index.common.converter.EngToKorConverter;
-import org.elasticsearch.index.common.converter.LanguageConverter;
 import org.junit.Test;
 
 public class ConverterE2KTest {
@@ -94,5 +93,49 @@ public class ConverterE2KTest {
 
 		System.out.println(result);
 		assertEquals("메ㅔㅣㄷ", result);
+	}
+
+	@Test
+	public void 꾸꾸() {
+		String token = "RnRn";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("꾸꾸", result);
+	}
+
+	@Test
+	public void 뚜뚜() {
+		String token = "EnEn";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("뚜뚜", result);
+	}
+
+	@Test
+	public void 구구() {
+		String token = "rnrn";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("구구", result);
+	}
+
+	@Test
+	public void 청바지() {
+		String token = "cjDqKwl";
+
+		EngToKorConverter convert = new EngToKorConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("청바지", result);
 	}
 }

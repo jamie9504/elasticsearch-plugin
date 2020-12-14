@@ -1,7 +1,10 @@
 package org.elasticsearch.index.common.converter;
 
+import java.util.Objects;
+
 import org.apache.commons.lang3.StringUtils;
 import org.elasticsearch.index.common.type.CodeType;
+import org.elasticsearch.index.common.util.AlphabetUtil;
 import org.elasticsearch.index.common.util.JamoUtil;
 import org.elasticsearch.index.common.util.KeyboardUtil;
 
@@ -60,38 +63,39 @@ public class KorToEngConverter {
 				/**
 				 * 1글자로 자모가 들어올 경우 처리
 				 */
-				String subStr = String.valueOf(init);
-				sb.append(getSameEngCharForJamo(subStr, 0));
+				Character sameEngCharForJamo = getSameEngCharForJamo(init);
+				if (Objects.nonNull(sameEngCharForJamo)) {
+					sb.append(sameEngCharForJamo);
+				}
 			} catch (Exception e) {
 			}
 		}
 		return sb.toString();
 	}
 
-	private String getSameEngChar(CodeType type, int pos) {
+	protected String getSameEngChar(CodeType type, int pos) {
 		switch (type) {
 			case CHOSUNG:
-				return KeyboardUtil.KEYBOARD_CHO_SUNG[pos];
+				return KeyboardUtil.KEYBOARD_CHO_SUNG_STRING[pos];
 
 			case JUNGSUNG:
-				return KeyboardUtil.KEYBOARD_JUNG_SUNG[pos];
+				return KeyboardUtil.KEYBOARD_JUNG_SUNG_STRING[pos];
 
 			case JONGSUNG:
 				if ((pos - 1) > -1) {
-					return KeyboardUtil.KEYBOARD_JONG_SUNG[pos - 1];
+					return KeyboardUtil.KEYBOARD_JONG_SUNG_STRING[pos - 1];
 				}
 				return "";
 		}
 		return "";
 	}
 
-	private String getSameEngCharForJamo(String key, int pos) {
-		for (int i = 0; i < KeyboardUtil.KEYBOARD_KEY_KOR.length; i++) {
-			if (KeyboardUtil.KEYBOARD_KEY_KOR[i].equals(key)) {
-				return KeyboardUtil.KEYBOARD_KEY_ENG[i];
-			}
+	private Character getSameEngCharForJamo(char key) {
+		Character sameEngCharForJamo = KeyboardUtil.KEYBOARD_KEY_KO_EN_MAPPER.get(key);
+		if (Objects.isNull(sameEngCharForJamo) || !AlphabetUtil.isAlphabet(sameEngCharForJamo)) {
+			return null;
 		}
-		return "";
+		return sameEngCharForJamo;
 	}
 }
 

@@ -204,4 +204,92 @@ public class LanguageConverterTest {
 		System.out.println(result);
 		assertEquals("egggood", result);
 	}
+
+	@Test
+	public void 꾸꾸() {
+		String token = "RnRn";
+
+		LanguageConverter convert = new LanguageConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("꾸꾸", result);
+	}
+
+	@Test
+	public void 구구() {
+		String token = "rnrn";
+
+		LanguageConverter convert = new LanguageConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("구구", result);
+	}
+
+	@Test
+	public void 청바지() {
+		String token = "cjDqKwl";
+
+		LanguageConverter convert = new LanguageConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("청바지", result);
+	}
+
+	@Test
+	public void 상() {
+		String token = "tKD";
+
+		LanguageConverter convert = new LanguageConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("상", result);
+	}
+
+	@Test
+	public void 청1() {
+		String token = "cjd1";
+
+		LanguageConverter convert = new LanguageConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("청1", result);
+	}
+
+	@Test
+	public void 청2() {
+		String token = "CJD2";
+
+		LanguageConverter convert = new LanguageConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("청2", result);
+	}
+
+	@Test
+	public void 청3() {
+		String token = "cJD3";
+
+		LanguageConverter convert = new LanguageConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("청3", result);
+	}
+
+	@Test
+	public void zdqdㅃㅉㄲ() {
+		String token = "ㅋㅇㅂㅇQWR";
+
+		LanguageConverter convert = new LanguageConverter();
+		String result = convert.convert(token);
+
+		System.out.println(result);
+		assertEquals("zdqdㅃㅉㄲ", result);
+	}
 }

@@ -71,7 +71,6 @@ public class EngToKorConverter {
 				index = mJongSung.get("idx");
 
 				// 한글 유니코드를 생성한다.
-				System.out.println("cho : " + cho + ", jung : " + jung + ", jong : " + jong);
 				sb.append((char)(JamoUtil.START_KOREA_UNICODE + cho + jung + jong));
 			} catch (Exception e) {
 			}

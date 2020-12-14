@@ -1,10 +1,16 @@
 package org.elasticsearch.index.common.util;
 
+import static org.elasticsearch.index.common.type.CodeType.*;
 import static org.elasticsearch.index.common.util.AlphabetUtil.*;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 
+import org.elasticsearch.index.common.converter.ShiftConverter;
 import org.elasticsearch.index.common.type.CodeType;
 
 /**
@@ -17,22 +23,17 @@ import org.elasticsearch.index.common.type.CodeType;
 public class KeyboardUtil {
 
 	/**
-	 * Converter 진행시 무시되는 문자들
-	 */
-	public static final String IGNORE_CHAR = "`1234567890-=[]\\;',./~!@#$%^&*()_+{}|:\"<>?' ' ";
-
-	/**
 	 * 초성 키에 해당하는 키보드상의 영문자 (19자)
 	 */
-	public static final String[] KEYBOARD_CHO_SUNG = {
+	public static final String[] KEYBOARD_CHO_SUNG_STRING = {
 		"r", "R", "s", "e", "E", "f", "a", "q", "Q", "t",
 		"T", "d", "w", "W", "c", "z", "x", "v", "g"
 	};
 
 	/**
-	 * 중성 키에 해당하는 키보스상의 영문자 (21자)
+	 * 중성 키에 해당하는 키보드상의 영문자 (21자)
 	 */
-	public static final String[] KEYBOARD_JUNG_SUNG = {
+	public static final String[] KEYBOARD_JUNG_SUNG_STRING = {
 		"k", "o", "i", "O", "j", "p", "u", "P", "h", "hk",
 		"ho", "hl", "y", "n", "nj", "np", "nl", "b", "m", "ml", "l"
 	};
@@ -40,40 +41,112 @@ public class KeyboardUtil {
 	/**
 	 * 종성 키에 해당하는 키보드상의 영문자 (27자) - "빈값" 제외
 	 */
-	public static final String[] KEYBOARD_JONG_SUNG = {
+	public static final String[] KEYBOARD_JONG_SUNG_STRING = {
 		"r", "R", "rt", "s", "sw", "sg", "e", "f", "fr", "fa",
 		"fq", "ft", "fx", "fv", "fg", "a", "q", "qt", "t", "T",
 		"d", "w", "c", "z", "x", "v", "g"
 	};
 
-	/**
-	 * 키보드상에서 한영키에 의해서 오타 교정이 필요한 키배열 (영문키 33자)
-	 */
-	public static final String[] KEYBOARD_KEY_ENG = {
-		"a", "b", "c", "d", "e", "f", "g", "h", "i", "j",
-		"k", "l", "m", "n", "o", "p", "q", "r", "s", "t",
-		"u", "v", "w", "x", "y", "z", "Q", "W", "E", "R",
-		"T", "O", "P"
-	};
+	public static final Map<String, Integer> KEYBOARD_CHO_SUNG_UNICODE_INDEX_MAPPER;
+	public static final Map<String, Integer> KEYBOARD_JUNG_SUNG_UNICODE_INDEX_MAPPER;
+	public static final Map<String, Integer> KEYBOARD_JONG_SUNG_UNICODE_INDEX_MAPPER;
 
-	/**
-	 * 키보드상에서 한영키에 의해서 오타 교정이 필요한 키배열 (한글키 33자)
-	 */
-	public static final String[] KEYBOARD_KEY_KOR = {
-		"ㅁ", "ㅠ", "ㅊ", "ㅇ", "ㄷ", "ㄹ", "ㅎ", "ㅗ", "ㅑ", "ㅓ",
-		"ㅏ", "ㅣ", "ㅡ", "ㅜ", "ㅐ", "ㅔ", "ㅂ", "ㄱ", "ㄴ", "ㅅ",
-		"ㅕ", "ㅍ", "ㅈ", "ㅌ", "ㅛ", "ㅋ", "ㅃ", "ㅉ", "ㄸ", "ㄲ",
-		"ㅆ", "ㅒ", "ㅖ"
-	};
-
-	public static final Map<Character, Character> KEYBOARD_KEY_MAPPER;
+	public static final Map<Character, Character> KEYBOARD_KEY_KO_EN_MAPPER;
+	public static final Map<Character, Character> KEYBOARD_KEY_SHIFT_MAPPER;
 
 	static {
-		KEYBOARD_KEY_MAPPER = new HashMap<>();
-		for (int i = 0; i < KEYBOARD_KEY_ENG.length; i++) {
-			KEYBOARD_KEY_MAPPER.put(KEYBOARD_KEY_ENG[i].charAt(0), KEYBOARD_KEY_KOR[i].charAt(0));
+		// 키보드상에서 한영키에 의해서 오타 교정이 필요한 키배열 (영문키 33자)
+		char[] keyboardKeyEng = {
+			'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j',
+			'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't',
+			'u', 'v', 'w', 'x', 'y', 'z', 'Q', 'W', 'E', 'R',
+			'T', 'O', 'P'
+		};
+
+		// 키보드상에서 한영키에 의해서 오타 교정이 필요한 키배열 (한글키 33자)
+		char[] keyboardKeyKor = {
+			'ㅁ', 'ㅠ', 'ㅊ', 'ㅇ', 'ㄷ', 'ㄹ', 'ㅎ', 'ㅗ', 'ㅑ', 'ㅓ',
+			'ㅏ', 'ㅣ', 'ㅡ', 'ㅜ', 'ㅐ', 'ㅔ', 'ㅂ', 'ㄱ', 'ㄴ', 'ㅅ',
+			'ㅕ', 'ㅍ', 'ㅈ', 'ㅌ', 'ㅛ', 'ㅋ', 'ㅃ', 'ㅉ', 'ㄸ', 'ㄲ',
+			'ㅆ', 'ㅒ', 'ㅖ'
+		};
+
+		char[] keyboardKeyEngShift = {
+			'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J',
+			'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T',
+			'U', 'V', 'W', 'X', 'Y', 'Z', 'q', 'w', 'e', 'r',
+			't', 'o', 'p'
+		};
+
+		char[] keyboardKeyKorShift = {
+			'ㅁ', 'ㅠ', 'ㅊ', 'ㅇ', 'ㄸ', 'ㄹ', 'ㅎ', 'ㅗ', 'ㅑ', 'ㅓ',
+			'ㅏ', 'ㅣ', 'ㅡ', 'ㅜ', 'ㅒ', 'ㅖ', 'ㅃ', 'ㄲ', 'ㄴ', 'ㅆ',
+			'ㅕ', 'ㅍ', 'ㅉ', 'ㅌ', 'ㅛ', 'ㅋ', 'ㅂ', 'ㅈ', 'ㄷ', 'ㄱ',
+			'ㅅ', 'ㅐ', 'ㅔ'
+		};
+
+		Map<Character, Character> keyboardKeyMapper = new HashMap<>();
+		for (int i = 0; i < keyboardKeyEng.length; i++) {
+			keyboardKeyMapper.put(keyboardKeyEng[i], keyboardKeyKor[i]);
+			keyboardKeyMapper.put(keyboardKeyKor[i], keyboardKeyEng[i]);
 		}
+
+		Map<Character, Character> keyboardKeyShiftMapper = new HashMap<>();
+		for (int i = 0; i < keyboardKeyEng.length; i++) {
+			keyboardKeyShiftMapper.put(keyboardKeyEng[i], keyboardKeyEngShift[i]);
+			keyboardKeyShiftMapper.put(keyboardKeyKor[i], keyboardKeyKorShift[i]);
+
+			if (!keyboardKeyMapper.containsKey(keyboardKeyEngShift[i])) {
+				keyboardKeyMapper.put(keyboardKeyEngShift[i], keyboardKeyKorShift[i]);
+			}
+			if (!keyboardKeyMapper.containsKey(keyboardKeyKorShift[i])) {
+				keyboardKeyMapper.put(keyboardKeyKorShift[i], keyboardKeyEngShift[i]);
+			}
+		}
+		KEYBOARD_KEY_KO_EN_MAPPER = Collections.unmodifiableMap(keyboardKeyMapper);
+		KEYBOARD_KEY_SHIFT_MAPPER = Collections.unmodifiableMap(keyboardKeyShiftMapper);
+
+		Map<String, Integer> keyboardChoSung = new HashMap<>();
+		for (int i = 0; i < KEYBOARD_CHO_SUNG_STRING.length; i++) {
+			keyboardChoSung.put(KEYBOARD_CHO_SUNG_STRING[i], i * 28 * 21);
+			keyboardChoSung.put(KEYBOARD_CHO_SUNG_STRING[i], i * 28 * 21);
+		}
+		Set<String> choSungs = new HashSet<>(keyboardChoSung.keySet());
+		for (String choSung : choSungs) {
+			String upperCaseChoSung = choSung.toUpperCase();
+			if(Objects.isNull(keyboardChoSung.get(upperCaseChoSung))) {
+				keyboardChoSung.put(upperCaseChoSung, keyboardChoSung.get(choSung));
+			}
+		}
+		KEYBOARD_CHO_SUNG_UNICODE_INDEX_MAPPER = Collections.unmodifiableMap(new HashMap<>(keyboardChoSung));
+
+		Map<String, Integer> keyboardJungSung = new HashMap<>();
+		for (int i = 0; i < KEYBOARD_JUNG_SUNG_STRING.length; i++) {
+			keyboardJungSung.put(KEYBOARD_JUNG_SUNG_STRING[i], i * 28);
+		}
+		Set<String> jungSungs = new HashSet<>(keyboardJungSung.keySet());
+		for (String jungSung : jungSungs) {
+			String upperCaseJungSung = jungSung.toUpperCase();
+			if(Objects.isNull(keyboardJungSung.get(upperCaseJungSung))) {
+				keyboardJungSung.put(upperCaseJungSung, keyboardJungSung.get(jungSung));
+			}
+		}
+		KEYBOARD_JUNG_SUNG_UNICODE_INDEX_MAPPER = Collections.unmodifiableMap(new HashMap<>(keyboardJungSung));
+
+		Map<String, Integer> keyboardJongSung = new HashMap<>();
+		for (int i = 0; i < KEYBOARD_JONG_SUNG_STRING.length; i++) {
+			keyboardJongSung.put(KEYBOARD_JONG_SUNG_STRING[i], i + 1);
+		}
+		Set<String> jongSungs = new HashSet<>(keyboardJongSung.keySet());
+		for (String jungSong : jongSungs) {
+			String upperCaseJongSung = jungSong.toUpperCase();
+			if(Objects.isNull(keyboardJongSung.get(upperCaseJongSung))) {
+				keyboardJongSung.put(upperCaseJongSung, keyboardJongSung.get(jungSong));
+			}
+		}
+		KEYBOARD_JONG_SUNG_UNICODE_INDEX_MAPPER = Collections.unmodifiableMap(new HashMap<>(keyboardJongSung));
 	}
+
 	/**
 	 * 초성 정보를 제공한다.
 	 *
@@ -206,7 +279,7 @@ public class KeyboardUtil {
 	 */
 	private static int getSingleFinal(int index, String word) {
 		if ((index + 1) <= word.length()) {
-			return makeUnicodeIndex(CodeType.JONGSUNG, word.substring(index, index + 1));
+			return makeUnicodeIndex(JONGSUNG, word.substring(index, index + 1));
 		} else {
 			return -1;
 		}
@@ -223,7 +296,7 @@ public class KeyboardUtil {
 		if ((index + 2) > word.length()) {
 			return -1;
 		} else {
-			return makeUnicodeIndex(CodeType.JONGSUNG, word.substring(index, index + 2));
+			return makeUnicodeIndex(JONGSUNG, word.substring(index, index + 2));
 		}
 	}
 
@@ -231,47 +304,42 @@ public class KeyboardUtil {
 	 * 키보드상에 매칭된 유니코드값 Index를 리턴한다.
 	 *
 	 * @param type
-	 * @param sub_str
+	 * @param subStr
 	 * @return
 	 */
 	private static int makeUnicodeIndex(CodeType type, String subStr) {
+		Integer unicodeIndex;
+
 		switch (type) {
 			case CHOSUNG:
-				for (int i = 0; i < KEYBOARD_CHO_SUNG.length; i++) {
-					if (KEYBOARD_CHO_SUNG[i].equals(subStr)) {
-						return i * 28 * 21;
-					}
+				unicodeIndex = KEYBOARD_CHO_SUNG_UNICODE_INDEX_MAPPER.get(subStr);
+				if (Objects.nonNull(unicodeIndex)) {
+					return unicodeIndex;
 				}
 				break;
 
 			case JUNGSUNG:
-				for (int i = 0; i < KEYBOARD_JUNG_SUNG.length; i++) {
-					if (KEYBOARD_JUNG_SUNG[i].equals(subStr)) {
-						return i * 28;
-					}
+				unicodeIndex = KEYBOARD_JUNG_SUNG_UNICODE_INDEX_MAPPER.get(subStr);
+				if (Objects.nonNull(unicodeIndex)) {
+					return unicodeIndex;
 				}
 				break;
 
 			case JONGSUNG:
-				for (int i = 0; i < KEYBOARD_JONG_SUNG.length; i++) {
-					if (KEYBOARD_JONG_SUNG[i].equals(subStr)) {
-						return i + 1;
-					}
+				unicodeIndex = KEYBOARD_JONG_SUNG_UNICODE_INDEX_MAPPER.get(subStr);
+				if (Objects.nonNull(unicodeIndex)) {
+					return unicodeIndex;
 				}
 				break;
 
 			default:
 				break;
 		}
-
 		return -1;
 	}
 
 	public static char getJamoFromAlphabet(char init) {
-		if (init < AlphabetUtil.START_ALPHABET_SMALL_UNICODE) {
-			init += ALPHABET_BIG_SMALL_INTERVAL;
-		}
-		return KEYBOARD_KEY_MAPPER.get(init);
+		return KEYBOARD_KEY_KO_EN_MAPPER.get(init);
 	}
 }
 
