@@ -1,5 +1,7 @@
 package org.elasticsearch.index.common.parser;
 
+import java.util.Objects;
+
 import org.elasticsearch.index.common.util.JamoUtil;
 
 /**
@@ -14,9 +16,18 @@ public class KoreanJamoParser extends AbstractKoreanParser {
 	protected void processForKoreanChar(StringBuilder sb, char chosung, char jungsung, char jongsung) {
 		sb.append(chosung).append(jungsung);
 
-		if (jongsung != JamoUtil.UNICODE_JONG_SUNG_EMPTY) {
-			sb.append(jongsung);
+		if (jongsung == JamoUtil.UNICODE_JONG_SUNG_EMPTY) {
+			return;
 		}
+
+		char[] jongsungs = JamoUtil.UNICODE_DOUBLE_JONG_SUNG_MAPPER.get(jongsung);
+		if(Objects.isNull(jongsungs)) {
+			sb.append(jongsung);
+			return;
+		}
+
+		sb.append(jongsungs[0]);
+		sb.append(jongsungs[1]);
 	}
 
 	@Override

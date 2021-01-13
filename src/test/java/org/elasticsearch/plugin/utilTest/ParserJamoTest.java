@@ -7,24 +7,50 @@ import org.junit.Test;
 
 public class ParserJamoTest {
 
+	private final KoreanJamoParser PARSER = new KoreanJamoParser();
+
 	@Test
-	public void jamoTest() {
+	public void jamoTest_초성중성() {
 		String token = "자바카페";
-		KoreanJamoParser parser = new KoreanJamoParser();
-		String result = parser.parse(token);
+		String result = PARSER.parse(token);
 
 		System.out.println(result);
 		assertEquals("ㅈㅏㅂㅏㅋㅏㅍㅔ", result);
 	}
 
 	@Test
-	public void jamoTest2() {
+	public void jamoTest_초성중성종성() {
 		String token = "삼성전자";
-		KoreanJamoParser parser = new KoreanJamoParser();
-		String result = parser.parse(token);
+		String result = PARSER.parse(token);
 
 		System.out.println(result);
 		assertEquals("ㅅㅏㅁㅅㅓㅇㅈㅓㄴㅈㅏ", result);
 	}
 
+	@Test
+	public void jamoTest_초성ㅉ() {
+		String token = "짜다";
+		String result = PARSER.parse(token);
+
+		System.out.println(result);
+		assertEquals("ㅉㅏㄷㅏ", result);
+	}
+
+	@Test
+	public void jamoTest_종성ㅆ() {
+		String token = "갔다";
+		String result = PARSER.parse(token);
+
+		System.out.println(result);
+		assertEquals("ㄱㅏㅆㄷㅏ", result);
+	}
+
+	@Test
+	public void jamoTest_종성ㄹㅁ() {
+		String token = "굶다";
+		String result = PARSER.parse(token);
+
+		System.out.println(result);
+		assertEquals("ㄱㅜㄹㅁㄷㅏ", result);
+	}
 }

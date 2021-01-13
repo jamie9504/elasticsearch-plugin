@@ -1,5 +1,8 @@
 package org.elasticsearch.index.common.util;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 한글 자모 유니코드 유틸리티
  *
@@ -58,6 +61,28 @@ public class JamoUtil {
 		0x313B, 0x313C, 0x313D, 0x313E, 0x313F, 0x3140, 0x3141, 0x3142, 0x3144, 0x3145,
 		0x3146, 0x3147, 0x3148, 0x314A, 0x314B, 0x314C, 0x314D, 0x314E
 	};
+
+	/**
+	 * 겹자음 종성
+	 *
+	 * 겹자음 종성으로 올 수 있는 유니코드들
+	 */
+	public static final Map<Character, char[]> UNICODE_DOUBLE_JONG_SUNG_MAPPER;
+
+	static {
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER = new HashMap<>();
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x3133, new char[] {0x3131, 0x3145}); // ㄳ, ㄱ+ㅅ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x3135, new char[] {0x3134, 0x3148}); // ㄵ, ㄴ+ㅈ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x3136, new char[] {0x3134, 0x314e}); // ㄶ, ㄴ+ㅎ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x313a, new char[] {0x3139, 0x3131}); // ㄺ, ㄹ+ㄱ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x313b, new char[] {0x3139, 0x3141}); // ㄻ, ㄹ+ㅁ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x313c, new char[] {0x3139, 0x3142}); // ㄼ, ㄹ+ㅂ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x313d, new char[] {0x3139, 0x3145}); // ㄽ, ㄹ+ㅅ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x313e, new char[] {0x3139, 0x314c}); // ㄾ, ㄹ+ㅌ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x313f, new char[] {0x3139, 0x314d}); // ㄿ, ㄹ+ㅍ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x3140, new char[] {0x3139, 0x314e}); // ㅀ, ㄹ+ㅎ
+		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x3144, new char[] {0x3142, 0x3145}); // ㅄ, ㅂ+ㅅ
+	}
 
 	/**
 	 * 한글 유니코드의 시작값 (가)<br>
@@ -123,21 +148,3 @@ public class JamoUtil {
 		return isKorean(text) || isChosung(text) || isJungsung(text);
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
