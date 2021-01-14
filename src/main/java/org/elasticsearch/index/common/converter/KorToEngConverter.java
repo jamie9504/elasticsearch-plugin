@@ -91,7 +91,7 @@ public class KorToEngConverter {
 	}
 
 	private Character getSameEngCharForJamo(char key) {
-		Character sameEngCharForJamo = KeyboardUtil.KEYBOARD_KEY_KO_EN_MAPPER.get(key);
+		Character sameEngCharForJamo = KeyboardUtil.tranceJamoAndAlphabet(key, true);
 		if (Objects.isNull(sameEngCharForJamo) || !AlphabetUtil.isAlphabet(sameEngCharForJamo)) {
 			return null;
 		}

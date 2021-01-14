@@ -1,7 +1,6 @@
 package org.elasticsearch.index.common.util;
 
 import static org.elasticsearch.index.common.type.CodeType.*;
-import static org.elasticsearch.index.common.util.AlphabetUtil.*;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -10,7 +9,6 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
-import org.elasticsearch.index.common.converter.ShiftConverter;
 import org.elasticsearch.index.common.type.CodeType;
 
 /**
@@ -94,14 +92,15 @@ public class KeyboardUtil {
 		Map<Character, Character> keyboardKeyShiftMapper = new HashMap<>();
 		for (int i = 0; i < keyboardKeyEng.length; i++) {
 			keyboardKeyShiftMapper.put(keyboardKeyEng[i], keyboardKeyEngShift[i]);
+			keyboardKeyShiftMapper.put(keyboardKeyEngShift[i], keyboardKeyEng[i]);
 			keyboardKeyShiftMapper.put(keyboardKeyKor[i], keyboardKeyKorShift[i]);
 
-			if (!keyboardKeyMapper.containsKey(keyboardKeyEngShift[i])) {
-				keyboardKeyMapper.put(keyboardKeyEngShift[i], keyboardKeyKorShift[i]);
-			}
-			if (!keyboardKeyMapper.containsKey(keyboardKeyKorShift[i])) {
-				keyboardKeyMapper.put(keyboardKeyKorShift[i], keyboardKeyEngShift[i]);
-			}
+			// if (!keyboardKeyMapper.containsKey(keyboardKeyEngShift[i])) {
+			// 	keyboardKeyMapper.put(keyboardKeyEngShift[i], keyboardKeyKorShift[i]);
+			// }
+			// if (!keyboardKeyMapper.containsKey(keyboardKeyKorShift[i])) {
+			// 	keyboardKeyMapper.put(keyboardKeyKorShift[i], keyboardKeyEngShift[i]);
+			// }
 		}
 		KEYBOARD_KEY_KO_EN_MAPPER = Collections.unmodifiableMap(keyboardKeyMapper);
 		KEYBOARD_KEY_SHIFT_MAPPER = Collections.unmodifiableMap(keyboardKeyShiftMapper);
@@ -338,8 +337,12 @@ public class KeyboardUtil {
 		return -1;
 	}
 
-	public static char getJamoFromAlphabet(char init) {
-		return KEYBOARD_KEY_KO_EN_MAPPER.get(init);
+	public static Character tranceJamoAndAlphabet(char init, boolean exact) {
+		Character character = KEYBOARD_KEY_KO_EN_MAPPER.get(init);
+		if (exact || Objects.nonNull(character)) {
+			return character;
+		}
+		return KEYBOARD_KEY_KO_EN_MAPPER.get(KEYBOARD_KEY_SHIFT_MAPPER.get(init));
 	}
 }
 

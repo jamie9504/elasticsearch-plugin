@@ -64,7 +64,7 @@ public class LanguageConverterTest {
 
 	@Test
 	public void 뮹skㄴsbsm() {
-		String token = "abd나s뉴느";
+		String token = "abd나S뉴느";
 
 		LanguageConverter convert = new LanguageConverter();
 		String result = convert.convert(token);

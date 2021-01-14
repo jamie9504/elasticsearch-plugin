@@ -9,7 +9,8 @@ import org.elasticsearch.index.analysis.eng2kor.JavacafeEng2KorConvertFilterFact
 import org.elasticsearch.index.analysis.jamo.JavacafeJamoTokenFilterFactory;
 import org.elasticsearch.index.analysis.kor2eng.JavacafeKor2EngConvertFilterFactory;
 import org.elasticsearch.index.analysis.krenconvert.JamieKrEnConvertFilterFactory;
-import org.elasticsearch.index.analysis.onlyeng2kor.JamieOnlyKor2EngConvertFilterFactory;
+import org.elasticsearch.index.analysis.onlyeng2korjamo.JamieOnlyEng2KorJamoConvertFilterFactory;
+import org.elasticsearch.index.analysis.onlykor2eng.JamieOnlyKor2EngConvertFilterFactory;
 import org.elasticsearch.index.analysis.shiftconvert.JamieShiftConvertFilterFactory;
 import org.elasticsearch.index.analysis.spell.JavacafeSpellFilterFactory;
 import org.elasticsearch.indices.analysis.AnalysisModule;
@@ -49,9 +50,11 @@ public class JavacafePlugin extends Plugin implements AnalysisPlugin {
 		// (7) 한/영 쉬프트 포함 전환 필터
 		extra.put("jamie_shift_convert", JamieShiftConvertFilterFactory::new);
 
-		// (8) Only 영>한 변환 필터
+		// (8) Only 한>영 변환 필터
 		extra.put("jamie_only_kor2eng", JamieOnlyKor2EngConvertFilterFactory::new);
 
+		// (9) Only 영>한 변환 필터
+		extra.put("jamie_only_eng2kor", JamieOnlyEng2KorJamoConvertFilterFactory::new);
 		return extra;
 	}
 

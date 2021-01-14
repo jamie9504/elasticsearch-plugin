@@ -1,4 +1,4 @@
-package org.elasticsearch.index.analysis.onlyeng2kor;
+package org.elasticsearch.index.analysis.onlykor2eng;
 
 import java.io.IOException;
 

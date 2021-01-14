@@ -81,4 +81,40 @@ public class JamoUtilTest {
 		assertNull(JamoUtil.UNICODE_DOUBLE_JONG_SUNG_MAPPER.get('ㅍ'));
 		assertNull(JamoUtil.UNICODE_DOUBLE_JONG_SUNG_MAPPER.get('ㅎ'));
 	}
+
+	@Test
+	public void 중성분리() {
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅘ')[0], 'ㅗ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅘ')[1], 'ㅏ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅙ')[0], 'ㅗ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅙ')[1], 'ㅐ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅚ')[0], 'ㅗ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅚ')[1], 'ㅣ');
+
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅝ')[0], 'ㅜ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅝ')[1], 'ㅓ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅞ')[0], 'ㅜ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅞ')[1], 'ㅔ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅟ')[0], 'ㅜ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅟ')[1], 'ㅣ');
+
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅢ')[0], 'ㅡ');
+		assertEquals(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅢ')[1], 'ㅣ');
+
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅏ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅐ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅑ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅒ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅓ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅔ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅕ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅖ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅗ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅛ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅜ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅠ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅡ'));
+		assertNull(JamoUtil.UNICODE_DOUBLE_JUNG_SUNG_MAPPER.get('ㅣ'));
+
+	}
 }

@@ -66,5 +66,4 @@ public class OnlyKor2EngTest {
 		System.out.println(result);
 		assertEquals(token, result);
 	}
-
 }

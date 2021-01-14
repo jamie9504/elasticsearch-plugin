@@ -1,4 +1,4 @@
-package org.elasticsearch.index.analysis.onlyeng2kor;
+package org.elasticsearch.index.analysis.onlykor2eng;
 
 import org.apache.lucene.analysis.TokenStream;
 import org.elasticsearch.common.settings.Settings;

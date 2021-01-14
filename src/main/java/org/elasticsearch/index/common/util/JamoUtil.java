@@ -63,6 +63,14 @@ public class JamoUtil {
 	};
 
 	/**
+	 * 겹모음 중성
+	 *
+	 * 겹모음 중성으로 올 수 있는 유니코드들
+	 * ㅘ ㅙ ㅚ ㅝ ㅞ ㅟ ㅢ <br>
+	 */
+	public static final Map<Character, char[]> UNICODE_DOUBLE_JUNG_SUNG_MAPPER;
+
+	/**
 	 * 겹자음 종성
 	 *
 	 * 겹자음 종성으로 올 수 있는 유니코드들
@@ -70,6 +78,16 @@ public class JamoUtil {
 	public static final Map<Character, char[]> UNICODE_DOUBLE_JONG_SUNG_MAPPER;
 
 	static {
+		UNICODE_DOUBLE_JUNG_SUNG_MAPPER = new HashMap<>();
+		UNICODE_DOUBLE_JUNG_SUNG_MAPPER.put((char)0x3158, new char[] {0x3157, 0x314F}); // ㅘ, ㅗ+ㅏ
+		UNICODE_DOUBLE_JUNG_SUNG_MAPPER.put((char)0x3159, new char[] {0x3157, 0x3150}); // ㅙ, ㅗ+ㅐ
+		UNICODE_DOUBLE_JUNG_SUNG_MAPPER.put((char)0x315A, new char[] {0x3157, 0x3163}); // ㅚ, ㅗ+ㅣ
+		UNICODE_DOUBLE_JUNG_SUNG_MAPPER.put((char)0x315D, new char[] {0x315C, 0x3153}); // ㅝ, ㅜ+ㅓ
+		UNICODE_DOUBLE_JUNG_SUNG_MAPPER.put((char)0x315E, new char[] {0x315C, 0x3154}); // ㅞ, ㅜ+ㅔ
+		UNICODE_DOUBLE_JUNG_SUNG_MAPPER.put((char)0x315F, new char[] {0x315C, 0x3163}); // ㅟ, ㅜ+ㅣ
+		UNICODE_DOUBLE_JUNG_SUNG_MAPPER.put((char)0x3162, new char[] {0x3161, 0x3163}); // ㅢ, ㅡ+ㅣ
+
+
 		UNICODE_DOUBLE_JONG_SUNG_MAPPER = new HashMap<>();
 		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x3133, new char[] {0x3131, 0x3145}); // ㄳ, ㄱ+ㅅ
 		UNICODE_DOUBLE_JONG_SUNG_MAPPER.put((char)0x3135, new char[] {0x3134, 0x3148}); // ㄵ, ㄴ+ㅈ

@@ -64,7 +64,7 @@ public class ConverterE2KTest {
 
 	@Test
 	public void 뮹나ㄴ뉴느() {
-		String token = "abd나s뉴느";
+		String token = "abd나S뉴느";
 
 		EngToKorConverter convert = new EngToKorConverter();
 		String result = convert.convert(token);
@@ -121,8 +121,8 @@ public class ConverterE2KTest {
 	public void 구구() {
 		String token = "rnrn";
 
-		EngToKorConverter convert = new EngToKorConverter();
-		String result = convert.convert(token);
+		EngToKorConverter converter = new EngToKorConverter();
+		String result = converter.convert(token);
 
 		System.out.println(result);
 		assertEquals("구구", result);
@@ -132,8 +132,8 @@ public class ConverterE2KTest {
 	public void 청바지() {
 		String token = "cjDqKwl";
 
-		EngToKorConverter convert = new EngToKorConverter();
-		String result = convert.convert(token);
+		EngToKorConverter converter = new EngToKorConverter();
+		String result = converter.convert(token);
 
 		System.out.println(result);
 		assertEquals("청바지", result);

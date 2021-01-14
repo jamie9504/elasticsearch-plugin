@@ -1,6 +1,5 @@
 package org.elasticsearch.index.common.converter;
 
-import java.util.Map;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
@@ -12,8 +11,8 @@ import org.elasticsearch.index.common.util.KeyboardUtil;
 public class OnlyKor2EngConverter {
 
 	/**
-	 * 토큰이 오직 영문일 때(한글이 없을 때), 키보드 기준으로 한글로 변환한다.
-	 * 한글이 있다면, 기존 값을 그대로 반환한다.
+	 * 토큰이 오직 한글일 때(영문이 없을 때), 키보드 기준으로 영문으로 변환한다.
+	 * 영문이 있다면, 기존 값을 그대로 반환한다.
 	 *
 	 * @param token
 	 * @return
@@ -23,12 +22,14 @@ public class OnlyKor2EngConverter {
 		// 문자열을 한글자씩 잘라서 처리한다.
 		String word = token.trim();
 		for (int index = 0; index < word.length(); index++) {
-			// 한글이 아니면 넘긴다.
 			char init = word.charAt(index);
+
+			// 영문이 있으면 기존 값을 그대로 반환한다.
 			if (AlphabetUtil.isAlphabet(init)) {
 				return token;
 			}
 
+			// 한글이 아니면 넘긴다.
 			if (!JamoUtil.isHangul(init)) {
 				sb.append(word.charAt(index));
 				continue;
@@ -91,7 +92,7 @@ public class OnlyKor2EngConverter {
 	}
 
 	private Character getSameEngCharForJamo(char key) {
-		Character sameEngCharForJamo = KeyboardUtil.KEYBOARD_KEY_KO_EN_MAPPER.get(key);
+		Character sameEngCharForJamo = KeyboardUtil.tranceJamoAndAlphabet(key, true);
 		if (Objects.isNull(sameEngCharForJamo) || !AlphabetUtil.isAlphabet(sameEngCharForJamo)) {
 			return null;
 		}

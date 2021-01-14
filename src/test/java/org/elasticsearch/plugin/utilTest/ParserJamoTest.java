@@ -53,4 +53,13 @@ public class ParserJamoTest {
 		System.out.println(result);
 		assertEquals("ㄱㅜㄹㅁㄷㅏ", result);
 	}
+
+	@Test
+	public void jamoTest_중성ㅙ() {
+		String token = "왜";
+		String result = PARSER.parse(token);
+
+		System.out.println(result);
+		assertEquals("ㅇㅗㅐ", result);
+	}
 }

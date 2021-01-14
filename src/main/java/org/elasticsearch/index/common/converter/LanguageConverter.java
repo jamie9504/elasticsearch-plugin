@@ -73,7 +73,7 @@ public class LanguageConverter {
 
 				// 다음에 글자가 없는 경우
 				if (index + 1 == word.length()) {
-					sb.append(KeyboardUtil.getJamoFromAlphabet(init));
+					sb.append(KeyboardUtil.tranceJamoAndAlphabet(init, false));
 					continue;
 				}
 
@@ -82,7 +82,7 @@ public class LanguageConverter {
 				if (!AlphabetUtil.isAlphabet(nextInit)
 					|| (AlphabetUtil.isAlphabet(nextInit)
 					&& KeyboardUtil.getInfoForChoSung(index + 1, word).get("code") != -1)) {
-					sb.append(KeyboardUtil.getJamoFromAlphabet(init));
+					sb.append(KeyboardUtil.tranceJamoAndAlphabet(init, false));
 					continue;
 				}
 				index = mChoSung.get("idx");
@@ -90,7 +90,7 @@ public class LanguageConverter {
 				// 모음만 있는 경우
 				if (cho == -1) {
 					index--;
-					sb.append(KeyboardUtil.getJamoFromAlphabet(word.charAt(index)));
+					sb.append(KeyboardUtil.tranceJamoAndAlphabet(word.charAt(index), false));
 					continue;
 				}
 
@@ -130,7 +130,7 @@ public class LanguageConverter {
 	}
 
 	private Character getSameEngCharForJamo(char key) {
-		Character sameEngCharForJamo = KeyboardUtil.KEYBOARD_KEY_KO_EN_MAPPER.get(key);
+		Character sameEngCharForJamo = KeyboardUtil.tranceJamoAndAlphabet(key, true);
 		if (Objects.isNull(sameEngCharForJamo) || !AlphabetUtil.isAlphabet(sameEngCharForJamo)) {
 			return null;
 		}
